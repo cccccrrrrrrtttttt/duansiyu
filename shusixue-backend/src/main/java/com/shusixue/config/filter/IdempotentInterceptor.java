@@ -1,4 +1,4 @@
-package com.shusixue.config.filter;
+﻿package com.shusixue.config.filter;
 
 import com.shusixue.annotation.Idempotent;
 import com.shusixue.common.CacheConstants;
@@ -31,7 +31,6 @@ public class IdempotentInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        // 只有方法处理器才需要处理
         if (!(handler instanceof HandlerMethod)) {
             return true;
         }
@@ -39,7 +38,6 @@ public class IdempotentInterceptor implements HandlerInterceptor {
         HandlerMethod handlerMethod = (HandlerMethod) handler;
         Method method = handlerMethod.getMethod();
 
-        // 检查方法是否标注了@Idempotent注解
         if (!method.isAnnotationPresent(Idempotent.class)) {
             return true;
         }
@@ -48,17 +46,14 @@ public class IdempotentInterceptor implements HandlerInterceptor {
         String headerName = idempotent.headerName();
         String token = request.getHeader(headerName);
 
-        // 验证Token是否存在
+        // 幂等性Token为空时直接放行（兼容未传递幂等Token的客户端）
         if (token == null || token.isEmpty()) {
-            log.warn("幂等性Token为空: {}", headerName);
-            responseError(response, "缺少请求Token");
-            return false;
+            return true;
         }
 
         String cacheKey = CacheConstants.buildIdempotentTokenKey(token);
         
         try {
-            // 使用Redis的setIfAbsent实现原子操作，保证幂等性
             Boolean success = redisTemplate.opsForValue().setIfAbsent(
                     cacheKey, 
                     request.getRequestURI(), 
@@ -67,7 +62,6 @@ public class IdempotentInterceptor implements HandlerInterceptor {
             );
 
             if (Boolean.FALSE.equals(success)) {
-                // Token已存在，说明重复提交
                 log.warn("重复提交检测: token={}, uri={}", token, request.getRequestURI());
                 responseError(response, idempotent.message());
                 return false;
@@ -78,14 +72,10 @@ public class IdempotentInterceptor implements HandlerInterceptor {
 
         } catch (Exception e) {
             log.error("幂等性验证异常: {}", token, e);
-            // Redis异常时，为了系统可用性，放行请求
             return true;
         }
     }
 
-    /**
-     * 返回错误响应
-     */
     private void responseError(HttpServletResponse response, String message) throws Exception {
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
         response.setCharacterEncoding("UTF-8");
