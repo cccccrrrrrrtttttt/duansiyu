@@ -8,12 +8,12 @@ spring:
     name: shusixue-backend
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DATABASE:shusixue}?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=true&requireSSL=false&allowPublicKeyRetrieval=true
+    url: jdbc:mysql://${MYSQL_HOST:mysql.railway.internal}:${MYSQL_PORT:3306}/${MYSQL_DATABASE:railway}?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true
     username: ${MYSQL_USER:root}
-    password: ${MYSQL_PASSWORD:}
+    password: ${MYSQL_PASSWORD:iquTEyTEztoHwwyRqstYNfRBNSluncuQ}
   data:
     redis:
-      host: ${REDIS_HOST:localhost}
+      host: ${REDIS_HOST:Redis}
       port: ${REDIS_PORT:6379}
       database: 0
       timeout: 3000ms
