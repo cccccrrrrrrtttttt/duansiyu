@@ -3,7 +3,7 @@
     <div class="page-header">
       <div class="header-content">
         <h1 class="page-title">学情分析</h1>
-        <p class="page-desc">基于学生作业数据，智能分析学习状况和薄弱'</p>
+        <p class="page-desc">基于学生作业数据，智能分析学习状况和薄弱点</p>
       </div>
       <div class="header-actions">
         <el-button type="primary" size="large" @click="exportReport">
@@ -27,12 +27,12 @@
           <div v-if="learningTrend" class="chart-content">
             <canvas ref="trendChart"></canvas>
           </div>
-          <div v-else class="chart-placeholder">
+            <div v-else class="chart-placeholder">
             <el-icon :size="60" class="chart-icon">
               <DataLine />
             </el-icon>
             <p class="chart-text">学习趋势图表</p>
-            <p class="chart-hint">加载'..</p>
+            <p class="chart-hint">加载中...</p>
           </div>
         </div>
       </div>
@@ -40,7 +40,8 @@
       <div class="card">
         <h2 class="section-title">
           <el-icon><PieChart /></el-icon>
-          知识点掌握情'        </h2>
+          知识点掌握情况
+        </h2>
         <div class="knowledge-stats">
           <div
             v-for="item in knowledgeStats"
@@ -58,8 +59,8 @@
               ></div>
             </div>
             <div class="stat-footer">
-              <span class="stat-score">{{ item.score }}�</span>
-              <span class="stat-count">{{ item.count }}�</span>
+              <span class="stat-score">{{ item.score }}</span>
+              <span class="stat-count">{{ item.count }}</span>
             </div>
           </div>
         </div>
@@ -68,7 +69,8 @@
       <div class="card">
         <h2 class="section-title">
           <el-icon><Warning /></el-icon>
-          薄弱点分'        </h2>
+          薄弱点分析
+        </h2>
         <div class="weak-points">
           <div
             v-for="point in weakPoints"
@@ -84,18 +86,18 @@
                 <p class="point-desc">{{ point.description }}</p>
               </div>
             </div>
-            <div class="point-stats">
-              <div class="point-stat">
-                <span class="stat-label">错误'</span>
-                <span class="stat-value error">{{ point.errorRate }}%</span>
+              <div class="point-stats">
+                <div class="point-stat">
+                  <span class="stat-label">错误率</span>
+                  <span class="stat-value error">{{ point.errorRate }}%</span>
+                </div>
+                <div class="point-stat">
+                  <span class="stat-label">影响学生</span>
+                  <span class="stat-value">{{ point.affectedStudents }}</span>
+                </div>
               </div>
-              <div class="point-stat">
-                <span class="stat-label">影响学生</span>
-                <span class="stat-value">{{ point.affectedStudents }}�</span>
-              </div>
-            </div>
             <div class="point-suggestions">
-              <h4 class="suggestions-title">改进建议'</h4>
+              <h4 class="suggestions-title">改进建议</h4>
               <ul class="suggestions-list">
                 <li v-for="(suggestion, index) in point.suggestions" :key="index">
                   {{ suggestion }}
@@ -125,11 +127,11 @@
               <p class="student-class">{{ student.className }}</p>
               <div class="student-stats">
                 <div class="mini-stat">
-                  <span class="mini-label">平均'</span>
+                  <span class="mini-label">平均分</span>
                   <span class="mini-value">{{ student.avgScore }}</span>
                 </div>
                 <div class="mini-stat">
-                  <span class="mini-label">完成'</span>
+                  <span class="mini-label">完成率</span>
                   <span class="mini-value">{{ student.completionRate }}%</span>
                 </div>
               </div>
@@ -178,13 +180,13 @@ let chartInstance = null
 const exportReport = async () => {
   try {
     // 直接使用axios发起请求，绕过响应拦截器
-    const res = await axios.get('http://localhost:8081/api/diagnosis/export', { 
+    const res = await axios.get('http://localhost:8081/api/diagnosis/export', {
       responseType: 'blob',
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
     })
-    
+
     // 创建下载链接
     const url = window.URL.createObjectURL(new Blob([res.data]))
     const link = document.createElement('a')
@@ -193,7 +195,7 @@ const exportReport = async () => {
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)
-    
+
     ElMessage.success('分析报告导出成功')
   } catch (error) {
     console.error('导出分析报告失败:', error)
@@ -210,12 +212,12 @@ const loadDiagnosisData = async () => {
   try {
     const res = await request.get('/api/diagnosis/data')
     const data = res.data
-    
+
     knowledgeStats.value = data.knowledgeStats || []
     weakPoints.value = data.weakPoints || []
     studentProfiles.value = data.studentProfiles || []
     learningTrend.value = data.learningTrend || null
-    
+
     // 渲染学习趋势图表
     if (learningTrend.value) {
       renderTrendChart()
@@ -278,7 +280,7 @@ const getDefaultStudentProfiles = () => {
     {
       id: 1,
       name: '张三',
-      className: '数学1�?,
+      className: '数学1班',
       avgScore: 85,
       completionRate: 95,
       tags: [{ label: '学习积极', type: 'success' }, { label: '基础扎实', type: 'info' }, { label: '需加强应用', type: 'warning' }]
@@ -286,7 +288,7 @@ const getDefaultStudentProfiles = () => {
     {
       id: 2,
       name: '李四',
-      className: '数学2�?,
+      className: '数学2班',
       avgScore: 72,
       completionRate: 88,
       tags: [{ label: '态度端正', type: 'success' }, { label: '计算能力', type: 'danger' }, { label: '需辅导', type: 'warning' }]
@@ -294,7 +296,7 @@ const getDefaultStudentProfiles = () => {
     {
       id: 3,
       name: '王五',
-      className: '数学3�?,
+      className: '数学3班',
       avgScore: 91,
       completionRate: 98,
       tags: [{ label: '学习优秀', type: 'success' }, { label: '思维活跃', type: 'info' }, { label: '乐于助人', type: 'success' }]
@@ -306,10 +308,10 @@ const getDefaultLearningTrend = () => {
   const labels = []
   const scores = []
   const now = new Date()
-  for (let i = 5; i >= 0; i--) {
+    for (let i = 5; i >= 0; i--) {
     const date = new Date(now)
     date.setDate(date.getDate() - i * 7)
-    labels.push(`${date.getMonth() + 1}�?{date.getDate()}周`)
+    labels.push(`${date.getMonth() + 1}月${date.getDate()}周`)
     scores.push(60 + i * 5 + Math.floor(Math.random() * 5))
   }
   return { labels, scores }
@@ -317,54 +319,54 @@ const getDefaultLearningTrend = () => {
 
 const renderTrendChart = () => {
   if (!trendChart.value || !learningTrend.value) return
-  
+
   // 简单的Canvas渲染
   const canvas = trendChart.value
   const ctx = canvas.getContext('2d')
-  
+
   // 清除画布
   ctx.clearRect(0, 0, canvas.width, canvas.height)
-  
+
   const labels = learningTrend.value.labels
   const scores = learningTrend.value.scores
-  
+
   if (!labels || !scores || labels.length === 0 || scores.length === 0) return
-  
+
   // 计算坐标
   const padding = 40
   const chartWidth = canvas.width - padding * 2
   const chartHeight = canvas.height - padding * 2
   const stepX = chartWidth / (labels.length - 1)
   const maxScore = Math.max(...scores) * 1.1
-  
+
   // 绘制坐标'  ctx.beginPath()
   ctx.moveTo(padding, padding)
   ctx.lineTo(padding, canvas.height - padding)
   ctx.lineTo(canvas.width - padding, canvas.height - padding)
   ctx.strokeStyle = '#e5e7eb'
   ctx.stroke()
-  
+
   // 绘制数据点和连线
   ctx.beginPath()
   ctx.strokeStyle = '#2563eb'
   ctx.lineWidth = 2
-  
+
   scores.forEach((score, index) => {
     const x = padding + index * stepX
     const y = canvas.height - padding - (score / maxScore) * chartHeight
-    
+
     if (index === 0) {
       ctx.moveTo(x, y)
     } else {
       ctx.lineTo(x, y)
     }
-    
+
     // 绘制数据'    ctx.beginPath()
     ctx.arc(x, y, 4, 0, Math.PI * 2)
     ctx.fillStyle = '#2563eb'
     ctx.fill()
   })
-  
+
   // 绘制标签
   ctx.font = '12px Arial'
   ctx.fillStyle = '#6b7280'
@@ -639,7 +641,7 @@ onUnmounted(() => {
 }
 
 .suggestions-list li::before {
-  content: "�?;
+  content: "•";
   position: absolute;
   left: 0;
   color: var(--primary-color);
@@ -741,7 +743,7 @@ onUnmounted(() => {
   .header-content h1 {
     font-size: 1.25rem;
   }
-  
+
   .header-actions {
     flex-direction: column;
     gap: 0.5rem;

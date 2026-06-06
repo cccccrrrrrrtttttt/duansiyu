@@ -1,20 +1,20 @@
-server:
+﻿server:
   port: 8081
 
 spring:
   main:
-    allow-circular-references: true # 保留兜底配置
+    allow-circular-references: true
   application:
     name: shusixue-backend
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://:/?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=true&requireSSL=false&allowPublicKeyRetrieval=true
-    username: 
-    password: 
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/${MYSQL_DATABASE:shusixue}?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=true&requireSSL=false&allowPublicKeyRetrieval=true
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASSWORD:}
   data:
     redis:
-      host: 
-      port: 
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
       database: 0
       timeout: 3000ms
 
@@ -35,7 +35,6 @@ jwt:
   secret: shusixue-secret-key-2026-spring-boot-jwt-token
   expiration: 86400000
 
-# Knife4j Swagger配置
 knife4j:
   enable: true
   setting:
@@ -51,7 +50,6 @@ knife4j:
       tags-sorter: alpha
       operations-sorter: alpha
 
-# 日志配置
 logging:
   level:
     com.shusixue: DEBUG

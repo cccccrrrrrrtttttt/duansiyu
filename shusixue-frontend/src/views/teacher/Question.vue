@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="question-page">
     <div class="page-header">
       <div class="header-content">
@@ -20,8 +20,8 @@
         <el-form-item label="科目">
           <el-select v-model="queryForm.subject" placeholder="请选择科目" clearable>
             <el-option label="高等数学" value="高等数学" />
-            <el-option label="线性代' value="线性代' />
-            <el-option label="概率' value="概率' />
+            <el-option label="线性代数 value="线性代数 />
+            <el-option label="概率论 value="概率论 />
             <el-option label="数学建模" value="数学建模" />
           </el-select>
         </el-form-item>
@@ -112,8 +112,8 @@
         <el-form-item label="科目" prop="subject">
           <el-select v-model="form.subject" placeholder="请选择科目" style="width: 100%">
             <el-option label="高等数学" value="高等数学" />
-            <el-option label="线性代' value="线性代' />
-            <el-option label="概率' value="概率' />
+            <el-option label="线性代数 value="线性代数 />
+            <el-option label="概率论 value="概率论 />
             <el-option label="数学建模" value="数学建模" />
           </el-select>
         </el-form-item>
@@ -319,3 +319,4 @@ onMounted(() => {
 
 
 </style>
+

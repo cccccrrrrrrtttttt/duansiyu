@@ -32,7 +32,7 @@
               class="upload-area"
               @click="handleUploadClick('analysis')"
               @dragover.prevent
-              @drop.prevent="(e) => handleFileDrop(e, 'analysis')"
+              @drop.prevent="handleFileDrop($event, 'analysis')"
             >
               <el-icon :size="48" class="upload-icon">
                 <Upload />
@@ -44,7 +44,7 @@
                 type="file"
                 class="file-input"
                 accept=".docx"
-                @change="(e) => handleFileChange(e, 'analysis')"
+                @change="handleFileChange($event, 'analysis')"
               />
             </div>
 
@@ -101,19 +101,19 @@
               class="upload-area"
               @click="handleUploadClick('improvement')"
               @dragover.prevent
-              @drop.prevent="(e) => handleFileDrop(e, 'improvement')"
+              @drop.prevent="handleFileDrop($event, 'improvement')"
             >
               <el-icon :size="48" class="upload-icon">
                 <Document />
               </el-icon>
-              <div class="upload-text">点击或拖拽上传教案文'</div>
+              <div class="upload-text">点击或拖拽上传教案文件</div>
               <div class="upload-hint">支持 .docx 格式，文件大小不超过 10MB</div>
               <input
                 ref="improvementFileInput"
                 type="file"
                 class="file-input"
                 accept=".docx"
-                @change="(e) => handleFileChange(e, 'improvement')"
+                @change="handleFileChange($event, 'improvement')"
               />
             </div>
 
@@ -139,7 +139,7 @@
               >
                 <template v-if="loading.improvement">
                   <el-icon class="el-icon--left"><Loading /></el-icon>
-                  分析'..
+                  分析中...
                 </template>
                 <template v-else>
                   获取改进建议
@@ -175,7 +175,7 @@
                   </div>
                 </div>
                 <el-icon class="btn-arrow">
-                  <component :is="section.expanded ? 'ArrowUp' : 'ArrowDown'" />
+                  <component :is="section.expanded ? ArrowUp : ArrowDown" />
                 </el-icon>
               </div>
 
@@ -191,7 +191,7 @@
                     {{ paragraph }}
                   </p>
                   <div v-if="section.highlight" class="highlight-box">
-                    <strong>总体评估'</strong>{{ section.highlight }}
+                    <strong>总体评估</strong>{{ section.highlight }}
                   </div>
                 </div>
               </div>
@@ -205,7 +205,7 @@
               <el-icon><MagicStick /></el-icon>
               教案生成
             </h2>
-            <p class="section-desc">输入教学内容，自动生成教案模'</p>
+            <p class="section-desc">输入教学内容，自动生成教案模板</p>
             <div class="form-group">
               <el-input
                 v-model="lessonTopic"
@@ -223,7 +223,7 @@
             >
               <template v-if="loading.generation">
                 <el-icon class="el-icon--left"><Loading /></el-icon>
-                生成'..
+                生成中...
               </template>
               <template v-else>
                 生成教案
@@ -231,11 +231,11 @@
             </el-button>
 
             <div v-if="generationResult" class="generation-result" style="margin-top: 1.5rem;">
-              <h3>生成的教'</h3>
+              <h3>生成的教案</h3>
               <div class="lesson-plan-content">
                 <h4>{{ generationResult.title }}</h4>
                 <div class="plan-section">
-                  <strong>教学目标'</strong>
+                  <strong>教学目标</strong>
                   <pre>{{ generationResult.teachingObjectives }}</pre>
                 </div>
                 <div class="plan-section">
@@ -243,15 +243,15 @@
                   <pre>{{ generationResult.keyPoints }}</pre>
                 </div>
                 <div class="plan-section">
-                  <strong>教学方法'</strong>
+                  <strong>教学方法</strong>
                   <pre>{{ generationResult.teachingMethods }}</pre>
                 </div>
                 <div class="plan-section">
-                  <strong>教学过程'</strong>
+                  <strong>教学过程</strong>
                   <pre>{{ generationResult.teachingProcess }}</pre>
                 </div>
                 <div class="plan-section">
-                  <strong>作业布置'</strong>
+                  <strong>作业布置</strong>
                   <pre>{{ generationResult.homework }}</pre>
                 </div>
               </div>
@@ -290,9 +290,9 @@ const generationResult = ref(null)
 const loading = ref({ analysis: false, improvement: false, generation: false })
 
 const sidebarItems = [
-  { id: 'analysis', label: '教案分析', icon: 'DataAnalysis' },
-  { id: 'improvement', label: '教案改进', icon: 'Edit' },
-  { id: 'generation', label: '教案生成', icon: 'MagicStick' }
+  { id: 'analysis', label: '教案分析', icon: DataAnalysis },
+  { id: 'improvement', label: '教案改进', icon: Edit },
+  { id: 'generation', label: '教案生成', icon: MagicStick }
 ]
 
 const analysisSections = ref([
@@ -300,7 +300,7 @@ const analysisSections = ref([
     id: 'deviation',
     title: '地区教学偏差分析',
     subtitle: '查看教案与当地教学实际的偏差',
-    icon: 'TrendCharts',
+    icon: TrendCharts,
     iconBg: '#fce7f3',
     expanded: false,
     contentTitle: '一、教案与当地课程标准的契合度分析',
@@ -316,7 +316,7 @@ const analysisSections = ref([
     id: 'evaluation',
     title: '输出教学评估',
     subtitle: '查看完整的教学评估报',
-    icon: 'DataAnalysis',
+    icon: DataAnalysis,
     iconBg: '#fef3c7',
     expanded: false,
     contentTitle: '教学评估报告',
@@ -327,13 +327,13 @@ const analysisSections = ref([
       '教学资源准备充分，考虑了多媒体运用',
       '评价方式多样化，关注过程性评'
     ],
-    highlight: '综合得分'5�?
+    highlight: '综合得分：85'
   },
   {
     id: 'improvement',
     title: '改进教案',
     subtitle: '获取智能改进建议',
-    icon: 'Edit',
+    icon: Edit,
     iconBg: '#dbeafe',
     expanded: false,
     contentTitle: '改进建议',
@@ -376,7 +376,8 @@ const processFile = async (file, type) => {
     return
   }
 
-  // 上传文件到后'  try {
+  // 上传文件到后台
+  try {
     const formData = new FormData()
     formData.append('file', file)
 
@@ -390,11 +391,12 @@ const processFile = async (file, type) => {
       ...file,
       fileName: res.data,
       size: file.size, // 明确存储文件大小
-      name: file.name // 明确存储文件'    }
+      name: file.name // 明确存储文件名
+    }
     ElMessage.success('文件上传成功')
   } catch (error) {
     console.error('文件上传失败:', error)
-    ElMessage.error('文件上传失败: ' + (error.message || '请稍后重'))
+    ElMessage.error('文件上传失败: ' + (error.message || '请稍后重试'))
   }
 }
 
@@ -438,7 +440,7 @@ const analyzeLessonPlan = async () => {
     ElMessage.success('教案分析成功')
   } catch (error) {
     console.error('教案分析失败:', error)
-    ElMessage.error('教案分析失败: ' + (error.message || '请稍后重'))
+    ElMessage.error('教案分析失败: ' + (error.message || '请稍后重试'))
   } finally {
     loading.value.analysis = false
   }
@@ -455,7 +457,8 @@ const improveLessonPlan = async () => {
     const res = await request.post('/api/lesson-plan/improve', {
       fileName: uploadedFiles.value.improvement.fileName
     })
-    // 更新分析章节的内容为API返回的结'    if (res.data) {
+    // 更新分析章节的内容为API返回的结果
+    if (res.data) {
       analysisSections.value = [
         {
           id: 'deviation',
@@ -488,13 +491,13 @@ const improveLessonPlan = async () => {
             '教学资源准备充分，考虑了多媒体运用',
             '评价方式多样化，关注过程性评'
           ],
-          highlight: res.data.evaluation?.highlight || '综合得分'5�?
+          highlight: res.data.evaluation?.highlight || '综合得分：85'
         },
         {
           id: 'improvement',
           title: '改进教案',
           subtitle: '获取智能改进建议',
-          icon: 'Edit',
+          icon: Edit,
           iconBg: '#dbeafe',
           expanded: false,
           contentTitle: '改进建议',
@@ -512,7 +515,7 @@ const improveLessonPlan = async () => {
     ElMessage.success('获取改进建议成功')
   } catch (error) {
     console.error('获取改进建议失败:', error)
-    ElMessage.error('获取改进建议失败: ' + (error.message || '请稍后重'))
+    ElMessage.error('获取改进建议失败: ' + (error.message || '请稍后重试'))
   } finally {
     loading.value.improvement = false
   }
@@ -520,7 +523,7 @@ const improveLessonPlan = async () => {
 
 const generateLessonPlan = async () => {
   if (!lessonTopic.value) {
-    ElMessage.warning('请输入教学内')
+    ElMessage.warning('请输入教学内容')
     return
   }
 
@@ -533,7 +536,7 @@ const generateLessonPlan = async () => {
     ElMessage.success('教案生成成功')
   } catch (error) {
     console.error('教案生成失败:', error)
-    ElMessage.error('教案生成失败: ' + (error.message || '请稍后重'))
+    ElMessage.error('教案生成失败: ' + (error.message || '请稍后重试'))
   } finally {
     loading.value.generation = false
   }

@@ -2,18 +2,19 @@
   <div class="knowledge-page">
     <div class="page-header">
       <div class="header-content">
-        <h1 class="page-title">知识点管'</h1>
-        <p class="page-desc">系统化管理数学核心知识点，支持多级分'</p>
+        <h1 class="page-title">知识点管理</h1>
+        <p class="page-desc">系统化管理数学核心知识点，支持多级分类管理</p>
       </div>
       <el-button type="primary" @click="handleAdd" class="add-btn">
-        <el-icon><Plus /></el-icon>
-        新增知识'      </el-button>
+          <el-icon><Plus /></el-icon>
+          新增知识
+        </el-button>
     </div>
 
     <div class="search-section">
       <el-input
         v-model="searchKeyword"
-        placeholder="搜索知识'.."
+        placeholder="搜索知识..."
         clearable
         class="search-input"
         @input="handleSearch"
@@ -24,8 +25,8 @@
       </el-input>
       <el-select v-model="subjectFilter" placeholder="选择科目" clearable class="subject-select">
         <el-option label="高等数学" value="高等数学" />
-        <el-option label="线性代' value="线性代' />
-        <el-option label="概率' value="概率' />
+        <el-option label="线性代数" value="线性代数" />
+        <el-option label="概率" value="概率" />
         <el-option label="数学建模" value="数学建模" />
       </el-select>
     </div>
@@ -33,7 +34,7 @@
     <div class="card">
       <el-table :data="filteredKnowledge" border stripe style="width: 100%">
         <el-table-column prop="id" label="ID" width="80" />
-        <el-table-column prop="title" label="知识点名' />
+        <el-table-column prop="title" label="知识点名称" />
         <el-table-column prop="subject" label="科目" width="120" />
         <el-table-column prop="parentId" label="父知识点" width="120">
           <template #default="{ row }">
@@ -54,26 +55,26 @@
       <el-icon :size="60" class="empty-icon">
         <Document />
       </el-icon>
-      <p class="empty-text">暂无相关知识'</p>
+      <p class="empty-text">暂无相关知识</p>
     </div>
 
-    <!-- 新增/编辑对话'-->
+    <!-- 新增/编辑对话 -->
     <el-dialog v-model="dialogVisible" :title="dialogTitle" width="500px">
       <el-form :model="form" :rules="rules" ref="formRef" label-width="100px">
-        <el-form-item label="知识点名' prop="title">
+        <el-form-item label="知识点名称" prop="title">
           <el-input v-model="form.title" placeholder="请输入知识点名称" />
         </el-form-item>
         <el-form-item label="科目" prop="subject">
           <el-select v-model="form.subject" placeholder="请选择科目" style="width: 100%">
             <el-option label="高等数学" value="高等数学" />
-            <el-option label="线性代' value="线性代' />
-            <el-option label="概率' value="概率' />
+            <el-option label="线性代数" value="线性代数" />
+            <el-option label="概率" value="概率" />
             <el-option label="数学建模" value="数学建模" />
           </el-select>
         </el-form-item>
         <el-form-item label="父知识点" prop="parentId">
           <el-select v-model="form.parentId" placeholder="选择父知识点（可选）" style="width: 100%">
-            <el-option label="�? value="0" />
+            <el-option label="顶级" value="0" />
             <el-option v-for="item in knowledgeList" :key="item.id" :label="item.title" :value="item.id" />
           </el-select>
         </el-form-item>
@@ -134,7 +135,7 @@ const filteredKnowledge = computed(() => {
 })
 
 const getParentName = (parentId) => {
-  if (parentId === 0) return '�?
+  if (parentId === 0) return '顶级'
   const parent = knowledgeList.value.find(item => item.id === parentId)
   return parent ? parent.title : '未知'
 }
@@ -200,8 +201,8 @@ const loadKnowledgeData = async () => {
     })
     knowledgeList.value = res.data || []
   } catch (error) {
-    console.error('加载知识点失'', error)
-    ElMessage.error('加载知识点失' ' + (error.message || '请稍后重'))
+    console.error('加载知识点失败:', error)
+    ElMessage.error('加载知识点失败: ' + (error.message || '请稍后重试'))
   } finally {
     loading.value = false
   }
@@ -300,17 +301,17 @@ onMounted(() => {
     align-items: flex-start;
     gap: 1rem;
   }
-  
+
   .search-section {
     flex-direction: column;
   }
-  
+
   .search-input,
   .subject-select {
     width: 100%;
     min-width: unset;
   }
-  
+
   .header-content h1 {
     font-size: 1.25rem;
   }

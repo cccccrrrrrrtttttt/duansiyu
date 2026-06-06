@@ -1,7 +1,7 @@
 <template>
   <div class="evaluation-page">
     <div class="page-header">
-      <h1 class="page-title">教学评价与反思'/h1>
+      <h1 class="page-title">教学评价与反思</h1>
       <p class="page-desc">记录教学过程中的收获与不足，持续提升教学质量</p>
     </div>
 
@@ -16,7 +16,7 @@
             <label class="form-label">评价标题</label>
             <el-input
               v-model="evaluationForm.title"
-              placeholder="请输入评价标'
+              placeholder="请输入评价标题"
             />
           </div>
           <div class="form-group">
@@ -35,9 +35,9 @@
               placeholder="选择班级"
               style="width: 100%"
             >
-              <el-option label="六年' value="六年' />
-              <el-option label="六年' value="六年' />
-              <el-option label="六年' value="六年' />
+              <el-option label="六年级一班" value="六年级一班" />
+              <el-option label="六年级二班" value="六年级二班" />
+              <el-option label="六年级三班" value="六年级三班" />
             </el-select>
           </div>
           <div class="form-group">
@@ -53,15 +53,15 @@
             <label class="form-label">教学效果评价</label>
             <el-rate
               v-model="evaluationForm.effectiveness"
-              :texts="['很差', '较差', '一', '良好', '优秀']"
+              :texts="['很差', '较差', '一般', '良好', '优秀']"
               show-score
             />
           </div>
           <div class="form-group">
-            <label class="form-label">学生参与'</label>
+            <label class="form-label">学生参与</label>
             <el-rate
               v-model="evaluationForm.participation"
-              :texts="['很低', '较低', '一', '较高', '很高']"
+              :texts="['很低', '较低', '一般', '较高', '很高']"
               show-score
             />
           </div>
@@ -80,7 +80,7 @@
               v-model="evaluationForm.weaknesses"
               type="textarea"
               :rows="3"
-              placeholder="记录教学中存在的问题和不'
+              placeholder="记录教学中存在的问题和不足"
             />
           </div>
           <div class="form-actions">
@@ -169,19 +169,20 @@
 
     <div class="reflection-section">
       <div class="card">
-        <h2 class="section-title">
+          <h2 class="section-title">
           <el-icon><EditPen /></el-icon>
-          教学反思'        </h2>
+          教学反思
+        </h2>
         <div class="reflection-form">
           <div class="form-group">
-            <label class="form-label">反思主'</label>
+            <label class="form-label">反思主题</label>
             <el-input
               v-model="reflectionForm.theme"
-              placeholder="请输入反思主'
+              placeholder="请输入反思主题"
             />
           </div>
           <div class="form-group">
-            <label class="form-label">反思内'</label>
+            <label class="form-label">反思内容</label>
             <el-input
               v-model="reflectionForm.content"
               type="textarea"
@@ -199,18 +200,19 @@
             />
           </div>
           <div class="form-group">
-            <label class="form-label">反思类'</label>
+            <label class="form-label">反思类型</label>
             <el-checkbox-group v-model="reflectionForm.types">
-              <el-checkbox label="教学设计反思' />
-              <el-checkbox label="教学方法反思' />
-              <el-checkbox label="学生反馈反思' />
-              <el-checkbox label="教学效果反思' />
+              <el-checkbox label="教学设计反思" />
+              <el-checkbox label="教学方法反思" />
+              <el-checkbox label="学生反馈反思" />
+              <el-checkbox label="教学效果反思" />
             </el-checkbox-group>
           </div>
           <div class="form-actions">
-            <el-button type="primary" @click="saveReflection">
+              <el-button type="primary" @click="saveReflection">
               <el-icon><Check /></el-icon>
-              保存反思'            </el-button>
+              保存反思
+            </el-button>
             <el-button @click="resetReflection">
               <el-icon><Refresh /></el-icon>
               重置
@@ -282,7 +284,7 @@ const saveEvaluation = async () => {
     ElMessage.warning('请填写完整的评价信息')
     return
   }
-  
+
   try {
     const formData = {
       ...evaluationForm.value,
@@ -323,7 +325,7 @@ const deleteEvaluation = async (id) => {
       cancelButtonText: '取消',
       type: 'warning'
     })
-    
+
     await request.delete(`/api/evaluation/${id}`)
     ElMessage.success('删除成功')
     await loadEvaluationData()
@@ -340,12 +342,12 @@ const saveReflection = async () => {
     ElMessage.warning('请填写完整的反思内')
     return
   }
-  
+
   try {
     ElMessage.success('反思保存成')
     resetReflection()
   } catch (error) {
-    console.error('保存反思失'', error)
+    console.error('保存反思失败:', error)
     ElMessage.error('保存失败')
   }
 }
@@ -373,7 +375,8 @@ const loadEvaluationData = async () => {
     }
   } catch (error) {
     console.error('加载评价数据失败:', error)
-    // 如果API调用失败，使用模拟数据作为备'    evaluationHistory.value = getDefaultEvaluationData()
+    // 如果API调用失败，使用模拟数据作为备份
+    evaluationHistory.value = getDefaultEvaluationData()
   } finally {
     loading.value = false
   }
@@ -383,9 +386,9 @@ const getDefaultEvaluationData = () => {
   return [
     {
       id: 1,
-      title: '极限与连续教',
-      date: '2026-04-10',
-      className: '数学1�?,
+        title: '极限与连续教学',
+        date: '2026-04-10',
+        className: '数学1班',
       content: '本次教学主要围绕极限与连续的概念展开，通过实例帮助学生理解极限的定义和计算方法',
       effectiveness: 4,
       effectivenessText: '良好',
@@ -396,9 +399,9 @@ const getDefaultEvaluationData = () => {
     },
     {
       id: 2,
-      title: '导数与微',
+      title: '导数与微分',
       date: '2026-04-08',
-      className: '数学2�?,
+      className: '数学2班',
       content: '教学导数和微分的概念及计算方法，通过几何意义帮助学生理解',
       effectiveness: 3,
       effectivenessText: '一',
