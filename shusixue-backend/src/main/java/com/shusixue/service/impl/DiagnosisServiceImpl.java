@@ -1,4 +1,4 @@
-﻿package com.shusixue.service.impl;
+package com.shusixue.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.shusixue.entity.HomeworkSubmission;
