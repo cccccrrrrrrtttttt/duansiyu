@@ -1,18 +1,18 @@
-<template>
+﻿<template>
   <div class="diagnosis-page">
     <div class="page-header">
       <div class="header-content">
-        <h1 class="page-title">学情分析</h1>
-        <p class="page-desc">基于学生作业数据，智能分析学习状况和薄弱点</p>
+        <h1 class="page-title">瀛︽儏鍒嗘瀽</h1>
+        <p class="page-desc">鍩轰簬瀛︾敓浣滀笟鏁版嵁锛屾櫤鑳藉垎鏋愬涔犵姸鍐靛拰钖勫急鐐?/p>
       </div>
       <div class="header-actions">
         <el-button type="primary" size="large" @click="exportReport">
           <el-icon><Download /></el-icon>
-          导出分析报告
+          瀵煎嚭鍒嗘瀽鎶ュ憡
         </el-button>
         <el-button size="large" @click="refreshData" :loading="loading">
           <el-icon><Refresh /></el-icon>
-          刷新数据
+          鍒锋柊鏁版嵁
         </el-button>
       </div>
     </div>
@@ -21,7 +21,7 @@
       <div class="card">
         <h2 class="section-title">
           <el-icon><TrendCharts /></el-icon>
-          学习趋势分析
+          瀛︿範瓒嬪娍鍒嗘瀽
         </h2>
         <div class="chart-container">
           <div v-if="learningTrend" class="chart-content">
@@ -31,8 +31,8 @@
             <el-icon :size="60" class="chart-icon">
               <DataLine />
             </el-icon>
-            <p class="chart-text">学习趋势图表</p>
-            <p class="chart-hint">加载中...</p>
+            <p class="chart-text">瀛︿範瓒嬪娍鍥捐〃</p>
+            <p class="chart-hint">鍔犺浇涓?..</p>
           </div>
         </div>
       </div>
@@ -40,8 +40,7 @@
       <div class="card">
         <h2 class="section-title">
           <el-icon><PieChart /></el-icon>
-          知识点掌握情况
-        </h2>
+          鐭ヨ瘑鐐规帉鎻℃儏鍐?        </h2>
         <div class="knowledge-stats">
           <div
             v-for="item in knowledgeStats"
@@ -69,8 +68,7 @@
       <div class="card">
         <h2 class="section-title">
           <el-icon><Warning /></el-icon>
-          薄弱点分析
-        </h2>
+          钖勫急鐐瑰垎鏋?        </h2>
         <div class="weak-points">
           <div
             v-for="point in weakPoints"
@@ -88,16 +86,16 @@
             </div>
               <div class="point-stats">
                 <div class="point-stat">
-                  <span class="stat-label">错误率</span>
+                  <span class="stat-label">閿欒鐜?/span>
                   <span class="stat-value error">{{ point.errorRate }}%</span>
                 </div>
                 <div class="point-stat">
-                  <span class="stat-label">影响学生</span>
+                  <span class="stat-label">褰卞搷瀛︾敓</span>
                   <span class="stat-value">{{ point.affectedStudents }}</span>
                 </div>
               </div>
             <div class="point-suggestions">
-              <h4 class="suggestions-title">改进建议</h4>
+              <h4 class="suggestions-title">鏀硅繘寤鸿</h4>
               <ul class="suggestions-list">
                 <li v-for="(suggestion, index) in point.suggestions" :key="index">
                   {{ suggestion }}
@@ -111,7 +109,7 @@
       <div class="card">
         <h2 class="section-title">
           <el-icon><User /></el-icon>
-          学生学习画像
+          瀛︾敓瀛︿範鐢诲儚
         </h2>
         <div class="student-profiles">
           <div
@@ -127,11 +125,11 @@
               <p class="student-class">{{ student.className }}</p>
               <div class="student-stats">
                 <div class="mini-stat">
-                  <span class="mini-label">平均分</span>
+                  <span class="mini-label">骞冲潎鍒?/span>
                   <span class="mini-value">{{ student.avgScore }}</span>
                 </div>
                 <div class="mini-stat">
-                  <span class="mini-label">完成率</span>
+                  <span class="mini-label">瀹屾垚鐜?/span>
                   <span class="mini-value">{{ student.completionRate }}%</span>
                 </div>
               </div>
@@ -179,27 +177,27 @@ let chartInstance = null
 
 const exportReport = async () => {
   try {
-    // 直接使用axios发起请求，绕过响应拦截器
-    const res = await axios.get('http://localhost:8081/api/diagnosis/export', {
+    // 鐩存帴浣跨敤axios鍙戣捣璇锋眰锛岀粫杩囧搷搴旀嫤鎴櫒
+    const res = await axios.get(`${import.meta.env.VITE_API_BASE_URL || "http://localhost:8081"}/api/diagnosis/export`, {
       responseType: 'blob',
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`
       }
     })
 
-    // 创建下载链接
+    // 鍒涘缓涓嬭浇閾炬帴
     const url = window.URL.createObjectURL(new Blob([res.data]))
     const link = document.createElement('a')
     link.href = url
-    link.setAttribute('download', `学情分析报告_${new Date().toISOString().split('T')[0]}.pdf`)
+    link.setAttribute('download', `瀛︽儏鍒嗘瀽鎶ュ憡_${new Date().toISOString().split('T')[0]}.pdf`)
     document.body.appendChild(link)
     link.click()
     document.body.removeChild(link)
 
-    ElMessage.success('分析报告导出成功')
+    ElMessage.success('鍒嗘瀽鎶ュ憡瀵煎嚭鎴愬姛')
   } catch (error) {
-    console.error('导出分析报告失败:', error)
-    ElMessage.error('导出分析报告失败: ' + (error.message || '请稍后重'))
+    console.error('瀵煎嚭鍒嗘瀽鎶ュ憡澶辫触:', error)
+    ElMessage.error('瀵煎嚭鍒嗘瀽鎶ュ憡澶辫触: ' + (error.message || '璇风◢鍚庨噸'))
   }
 }
 
@@ -218,13 +216,13 @@ const loadDiagnosisData = async () => {
     studentProfiles.value = data.studentProfiles || []
     learningTrend.value = data.learningTrend || null
 
-    // 渲染学习趋势图表
+    // 娓叉煋瀛︿範瓒嬪娍鍥捐〃
     if (learningTrend.value) {
       renderTrendChart()
     }
   } catch (error) {
-    console.error('加载学情分析数据失败:', error)
-    // 不显示错误提示，保持与其他模块一'    // 使用默认数据作为备用
+    console.error('鍔犺浇瀛︽儏鍒嗘瀽鏁版嵁澶辫触:', error)
+    // 涓嶆樉绀洪敊璇彁绀猴紝淇濇寔涓庡叾浠栨ā鍧椾竴'    // 浣跨敤榛樿鏁版嵁浣滀负澶囩敤
     if (knowledgeStats.value.length === 0) {
       knowledgeStats.value = getDefaultKnowledgeStats()
     }
@@ -247,10 +245,10 @@ const loadDiagnosisData = async () => {
 
 const getDefaultKnowledgeStats = () => {
   return [
-    { id: 1, name: '极限与连', level: '良好', badgeClass: 'badge-success', progress: 75, score: 85, count: 24 },
-    { id: 2, name: '导数与微', level: '需加强', badgeClass: 'badge-warning', progress: 60, score: 68, count: 18 },
-    { id: 3, name: '积分', level: '优秀', badgeClass: 'badge-info', progress: 90, score: 92, count: 30 },
-    { id: 4, name: '级数', level: '薄弱', badgeClass: 'badge-danger', progress: 45, score: 52, count: 15 }
+    { id: 1, name: '鏋侀檺涓庤繛', level: '鑹ソ', badgeClass: 'badge-success', progress: 75, score: 85, count: 24 },
+    { id: 2, name: '瀵兼暟涓庡井', level: '闇€鍔犲己', badgeClass: 'badge-warning', progress: 60, score: 68, count: 18 },
+    { id: 3, name: '绉垎', level: '浼樼', badgeClass: 'badge-info', progress: 90, score: 92, count: 30 },
+    { id: 4, name: '绾ф暟', level: '钖勫急', badgeClass: 'badge-danger', progress: 45, score: 52, count: 15 }
   ]
 }
 
@@ -258,19 +256,19 @@ const getDefaultWeakPoints = () => {
   return [
     {
       id: 1,
-      title: '定积分计',
-      description: '学生在定积分公式应用和换元法计算中存在较多错',
+      title: '瀹氱Н鍒嗚',
+      description: '瀛︾敓鍦ㄥ畾绉垎鍏紡搴旂敤鍜屾崲鍏冩硶璁＄畻涓瓨鍦ㄨ緝澶氶敊',
       errorRate: 35,
       affectedStudents: 12,
-      suggestions: ['加强定积分公式推导过程教', '增加换元法的专项练习', '提供更多实际应用场景题目', '针对易错点进行专项训']
+      suggestions: ['鍔犲己瀹氱Н鍒嗗叕寮忔帹瀵艰繃绋嬫暀', '澧炲姞鎹㈠厓娉曠殑涓撻」缁冧範', '鎻愪緵鏇村瀹為檯搴旂敤鍦烘櫙棰樼洰', '閽堝鏄撻敊鐐硅繘琛屼笓椤硅']
     },
     {
       id: 2,
-      title: '级数收敛性判',
-      description: '比较审敛法和比值审敛法的应用是主要错误',
+      title: '绾ф暟鏀舵暃鎬у垽',
+      description: '姣旇緝瀹℃暃娉曞拰姣斿€煎鏁涙硶鐨勫簲鐢ㄦ槸涓昏閿欒',
       errorRate: 42,
       affectedStudents: 15,
-      suggestions: ['强化级数收敛性的概念理解']
+      suggestions: ['寮哄寲绾ф暟鏀舵暃鎬х殑姒傚康鐞嗚В']
     }
   ]
 }
@@ -279,27 +277,27 @@ const getDefaultStudentProfiles = () => {
   return [
     {
       id: 1,
-      name: '张三',
-      className: '数学1班',
+      name: '寮犱笁',
+      className: '鏁板1鐝?,
       avgScore: 85,
       completionRate: 95,
-      tags: [{ label: '学习积极', type: 'success' }, { label: '基础扎实', type: 'info' }, { label: '需加强应用', type: 'warning' }]
+      tags: [{ label: '瀛︿範绉瀬', type: 'success' }, { label: '鍩虹鎵庡疄', type: 'info' }, { label: '闇€鍔犲己搴旂敤', type: 'warning' }]
     },
     {
       id: 2,
-      name: '李四',
-      className: '数学2班',
+      name: '鏉庡洓',
+      className: '鏁板2鐝?,
       avgScore: 72,
       completionRate: 88,
-      tags: [{ label: '态度端正', type: 'success' }, { label: '计算能力', type: 'danger' }, { label: '需辅导', type: 'warning' }]
+      tags: [{ label: '鎬佸害绔', type: 'success' }, { label: '璁＄畻鑳藉姏', type: 'danger' }, { label: '闇€杈呭', type: 'warning' }]
     },
     {
       id: 3,
-      name: '王五',
-      className: '数学3班',
+      name: '鐜嬩簲',
+      className: '鏁板3鐝?,
       avgScore: 91,
       completionRate: 98,
-      tags: [{ label: '学习优秀', type: 'success' }, { label: '思维活跃', type: 'info' }, { label: '乐于助人', type: 'success' }]
+      tags: [{ label: '瀛︿範浼樼', type: 'success' }, { label: '鎬濈淮娲昏穬', type: 'info' }, { label: '涔愪簬鍔╀汉', type: 'success' }]
     }
   ]
 }
@@ -311,7 +309,7 @@ const getDefaultLearningTrend = () => {
     for (let i = 5; i >= 0; i--) {
     const date = new Date(now)
     date.setDate(date.getDate() - i * 7)
-    labels.push(`${date.getMonth() + 1}月${date.getDate()}周`)
+    labels.push(`${date.getMonth() + 1}鏈?{date.getDate()}鍛╜)
     scores.push(60 + i * 5 + Math.floor(Math.random() * 5))
   }
   return { labels, scores }
@@ -320,11 +318,11 @@ const getDefaultLearningTrend = () => {
 const renderTrendChart = () => {
   if (!trendChart.value || !learningTrend.value) return
 
-  // 简单的Canvas渲染
+  // 绠€鍗曠殑Canvas娓叉煋
   const canvas = trendChart.value
   const ctx = canvas.getContext('2d')
 
-  // 清除画布
+  // 娓呴櫎鐢诲竷
   ctx.clearRect(0, 0, canvas.width, canvas.height)
 
   const labels = learningTrend.value.labels
@@ -332,21 +330,21 @@ const renderTrendChart = () => {
 
   if (!labels || !scores || labels.length === 0 || scores.length === 0) return
 
-  // 计算坐标
+  // 璁＄畻鍧愭爣
   const padding = 40
   const chartWidth = canvas.width - padding * 2
   const chartHeight = canvas.height - padding * 2
   const stepX = chartWidth / (labels.length - 1)
   const maxScore = Math.max(...scores) * 1.1
 
-  // 绘制坐标'  ctx.beginPath()
+  // 缁樺埗鍧愭爣'  ctx.beginPath()
   ctx.moveTo(padding, padding)
   ctx.lineTo(padding, canvas.height - padding)
   ctx.lineTo(canvas.width - padding, canvas.height - padding)
   ctx.strokeStyle = '#e5e7eb'
   ctx.stroke()
 
-  // 绘制数据点和连线
+  // 缁樺埗鏁版嵁鐐瑰拰杩炵嚎
   ctx.beginPath()
   ctx.strokeStyle = '#2563eb'
   ctx.lineWidth = 2
@@ -361,13 +359,13 @@ const renderTrendChart = () => {
       ctx.lineTo(x, y)
     }
 
-    // 绘制数据'    ctx.beginPath()
+    // 缁樺埗鏁版嵁'    ctx.beginPath()
     ctx.arc(x, y, 4, 0, Math.PI * 2)
     ctx.fillStyle = '#2563eb'
     ctx.fill()
   })
 
-  // 绘制标签
+  // 缁樺埗鏍囩
   ctx.font = '12px Arial'
   ctx.fillStyle = '#6b7280'
   labels.forEach((label, index) => {
@@ -641,7 +639,7 @@ onUnmounted(() => {
 }
 
 .suggestions-list li::before {
-  content: "•";
+  content: "鈥?;
   position: absolute;
   left: 0;
   color: var(--primary-color);
