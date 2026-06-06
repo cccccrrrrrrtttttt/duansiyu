@@ -1,0 +1,49 @@
+﻿# Java
+*.class
+*.jar
+*.war
+target/
+!.mvn/wrapper/maven-wrapper.jar
+
+# Maven
+.mvn/timing.log
+.mvn/wrapper/*.jar
+
+# Node
+node_modules/
+dist/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+
+# Configuration (keep template, ignore local)
+application-local.yml
+
+# Uploads
+uploads/
+
+# Claude plugin
+.claude-plugin/
+sessions/
+sources/
+skills/
+statuses/
+labels/
+events.jsonl
+config.json
+views.json
+
+# Test
+test.pdf
