@@ -20,8 +20,8 @@
         <el-form-item label="科目">
           <el-select v-model="queryForm.subject" placeholder="请选择科目" clearable>
             <el-option label="高等数学" value="高等数学" />
-            <el-option label="线性代数 value="线性代数 />
-            <el-option label="概率论 value="概率论 />
+            <el-option label="线性代数" value="线性代数" />
+            <el-option label="概率论" value="概率论" />
             <el-option label="数学建模" value="数学建模" />
           </el-select>
         </el-form-item>
@@ -29,8 +29,8 @@
           <el-select v-model="queryForm.type" placeholder="请选择题型" clearable>
             <el-option label="单选题" value="SINGLE_CHOICE" />
             <el-option label="多选题" value="MULTIPLE_CHOICE" />
-            <el-option label="填空' value="FILL_BLANK" />
-            <el-option label="解答' value="ESSAY" />
+            <el-option label="填空题" value="FILL_BLANK" />
+            <el-option label="解答题" value="ESSAY" />
           </el-select>
         </el-form-item>
         <el-form-item>
@@ -46,13 +46,13 @@
           <template #default="{ row }">
             <el-tag v-if="row.type === 'SINGLE_CHOICE'">单选题</el-tag>
             <el-tag v-else-if="row.type === 'MULTIPLE_CHOICE'" type="success">多选题</el-tag>
-            <el-tag v-else-if="row.type === 'FILL_BLANK'" type="warning">填空'</el-tag>
-            <el-tag v-else type="danger">解答'</el-tag>
+            <el-tag v-else-if="row.type === 'FILL_BLANK'" type="warning">填空题</el-tag>
+            <el-tag v-else type="danger">解答题</el-tag>
           </template>
         </el-table-column>
         <el-table-column prop="difficulty" label="难度" width="100">
           <template #default="{ row }">
-            <el-tag v-if="row.difficulty === 'EASY'" type="success">简'</el-tag>
+            <el-tag v-if="row.difficulty === 'EASY'" type="success">简单</el-tag>
             <el-tag v-else-if="row.difficulty === 'MEDIUM'" type="warning">中等</el-tag>
             <el-tag v-else type="danger">困难</el-tag>
           </template>
@@ -89,8 +89,8 @@
           <el-select v-model="form.type" placeholder="请选择题型" style="width: 100%">
             <el-option label="单选题" value="SINGLE_CHOICE" />
             <el-option label="多选题" value="MULTIPLE_CHOICE" />
-            <el-option label="填空' value="FILL_BLANK" />
-            <el-option label="解答' value="ESSAY" />
+            <el-option label="填空题" value="FILL_BLANK" />
+            <el-option label="解答题" value="ESSAY" />
           </el-select>
         </el-form-item>
         <el-form-item label="选项" v-if="form.type === 'SINGLE_CHOICE' || form.type === 'MULTIPLE_CHOICE'">
@@ -104,7 +104,7 @@
         </el-form-item>
         <el-form-item label="难度" prop="difficulty">
           <el-select v-model="form.difficulty" placeholder="请选择难度" style="width: 100%">
-            <el-option label="简' value="EASY" />
+            <el-option label="简单" value="EASY" />
             <el-option label="中等" value="MEDIUM" />
             <el-option label="困难" value="HARD" />
           </el-select>
@@ -112,8 +112,8 @@
         <el-form-item label="科目" prop="subject">
           <el-select v-model="form.subject" placeholder="请选择科目" style="width: 100%">
             <el-option label="高等数学" value="高等数学" />
-            <el-option label="线性代数 value="线性代数 />
-            <el-option label="概率论 value="概率论 />
+            <el-option label="线性代数" value="线性代数" />
+            <el-option label="概率论" value="概率论" />
             <el-option label="数学建模" value="数学建模" />
           </el-select>
         </el-form-item>
@@ -162,9 +162,9 @@ const form = reactive({
 })
 
 const rules = {
-  title: [{ required: true, message: '请输入题目内', trigger: 'blur' }],
+  title: [{ required: true, message: '请输入题目内容', trigger: 'blur' }],
   type: [{ required: true, message: '请选择题型', trigger: 'change' }],
-  answer: [{ required: true, message: '请输入答', trigger: 'blur' }],
+  answer: [{ required: true, message: '请输入答案', trigger: 'blur' }],
   difficulty: [{ required: true, message: '请选择难度', trigger: 'change' }],
   subject: [{ required: true, message: '请选择科目', trigger: 'change' }]
 }
@@ -319,4 +319,5 @@ onMounted(() => {
 
 
 </style>
+
 
