@@ -1,4 +1,4 @@
-﻿package com.shusixue.controller;
+package com.shusixue.controller;
 
 import com.shusixue.annotation.Idempotent;
 import com.shusixue.annotation.OperationLog;
