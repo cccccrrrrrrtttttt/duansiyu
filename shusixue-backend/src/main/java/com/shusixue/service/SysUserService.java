@@ -1,4 +1,4 @@
-﻿package com.shusixue.service;
+package com.shusixue.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.shusixue.entity.SysUser;

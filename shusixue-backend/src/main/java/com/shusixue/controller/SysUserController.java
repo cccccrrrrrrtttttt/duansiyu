@@ -85,7 +85,7 @@ public class SysUserController {
         String username = params.get("username");
         String newPassword = params.get("password");
         if (username == null || newPassword == null) {
-            return Result.failure(ResultCode.PARAM_ERROR);
+            return Result.fail(ResultCode.PARAM_ERROR);
         }
         // 不校验旧密码，直接重置（仅用于紧急修复）
         sysUserService.resetPassword(username, newPassword);
