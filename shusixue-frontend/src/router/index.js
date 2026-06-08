@@ -8,6 +8,11 @@ const routes = [
     component: () => import('@/views/Login.vue')
   },
   {
+    path: '/register',
+    name: 'Register',
+    component: () => import('@/views/Register.vue')
+  },
+  {
     path: '/',
     name: 'Layout',
     component: () => import('@/views/Layout.vue'),
@@ -72,7 +77,7 @@ router.beforeEach((to, from, next) => {
   const token = userStore.token
   const userInfo = userStore.userInfo
 
-  if (to.path === '/login') {
+  if (to.path === '/login' || to.path === '/register') {
     next()
   } else if (to.path === '/') {
     next('/login')

@@ -25,6 +25,11 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
 
     @Override
     public Long register(UserRegisterDTO registerDTO) {
+        // 0. 校验角色：只允许注册学生或老师，不允许注册管理员
+        String role = registerDTO.getRole();
+        if (!"STUDENT".equals(role) && !"TEACHER".equals(role)) {
+            throw new BusinessException("注册角色只能是学生或老师，不能注册管理员");
+        }
         // 1. 校验用户名是否已存在
         SysUser existUser = getUserByUsername(registerDTO.getUsername());
         if (existUser != null) {
@@ -37,7 +42,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         // 密码用BCrypt加密，绝对不能明文存数据库！
         user.setPassword(passwordEncoder.encode(registerDTO.getPassword()));
         user.setRealName(registerDTO.getRealName());
-        user.setRole(registerDTO.getRole());
+        user.setRole(role);
         user.setEmail(registerDTO.getEmail());
         user.setPhone(registerDTO.getPhone());
         user.setStatus(1); // 默认正常状态

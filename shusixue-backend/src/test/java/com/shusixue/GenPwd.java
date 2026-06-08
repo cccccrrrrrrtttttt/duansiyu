@@ -1,4 +1,4 @@
-﻿package com.shusixue;
+package com.shusixue;
 
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 

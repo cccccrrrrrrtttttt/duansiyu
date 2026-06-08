@@ -21,6 +21,10 @@
         <el-form-item>
           <el-button type="primary" style="width: 100%" @click="handleLogin" :loading="loading">登录</el-button>
         </el-form-item>
+        <div class="form-footer">
+          还没有账号？
+          <router-link to="/register" class="register-link">立即注册</router-link>
+        </div>
       </el-form>
       <div class="login-footer">
         <p>© 2026 数思学 - 数学教学辅助平台</p>
@@ -154,6 +158,23 @@ const handleLogin = async () => {
   font-size: 0.85rem;
   color: var(--text-secondary);
   text-align: center;
+}
+
+.form-footer {
+  text-align: center;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  padding-bottom: 1.5rem;
+}
+
+.register-link {
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.register-link:hover {
+  text-decoration: underline;
 }
 
 @media (max-width: 768px) {
