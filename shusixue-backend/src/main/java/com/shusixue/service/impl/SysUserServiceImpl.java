@@ -1,4 +1,4 @@
-package com.shusixue.service.impl;
+﻿package com.shusixue.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -79,5 +79,15 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserMapper, SysUser> impl
         return this.getOne(new LambdaQueryWrapper<SysUser>()
                 .eq(SysUser::getUsername, username)
                 .eq(SysUser::getDeleted, 0));
+    }
+    @Override
+    public void resetPassword(String username, String newPassword) {
+        SysUser user = getOne(new LambdaQueryWrapper<SysUser>()
+                .eq(SysUser::getUsername, username));
+        if (user == null) {
+            throw new BusinessException(ResultCode.USER_NOT_EXIST);
+        }
+        user.setPassword(passwordEncoder.encode(newPassword));
+        this.updateById(user);
     }
 }

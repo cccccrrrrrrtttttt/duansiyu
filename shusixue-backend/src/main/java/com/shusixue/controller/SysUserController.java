@@ -1,8 +1,9 @@
-package com.shusixue.controller;
+﻿package com.shusixue.controller;
 
 import com.shusixue.annotation.Idempotent;
 import com.shusixue.annotation.OperationLog;
 import com.shusixue.common.Result;
+import com.shusixue.common.ResultCode;
 import com.shusixue.dto.UserLoginDTO;
 import com.shusixue.dto.UserRegisterDTO;
 import com.shusixue.entity.SysUser;
@@ -75,4 +76,20 @@ public class SysUserController {
     public Result<String> adminTest() {
         return Result.success("管理员权限测试成功");
     }
+    /**
+     * 重置用户密码（管理员专用）
+     */
+    @PostMapping("/resetPassword")
+    @Idempotent
+    public Result<String> resetPassword(@RequestBody Map<String, String> params) {
+        String username = params.get("username");
+        String newPassword = params.get("password");
+        if (username == null || newPassword == null) {
+            return Result.failure(ResultCode.PARAM_ERROR);
+        }
+        // 不校验旧密码，直接重置（仅用于紧急修复）
+        sysUserService.resetPassword(username, newPassword);
+        return Result.success("密码已重置");
+    }
 }
+

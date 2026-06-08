@@ -1,4 +1,4 @@
-package com.shusixue.service;
+﻿package com.shusixue.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.shusixue.entity.SysUser;
@@ -28,5 +28,6 @@ public interface SysUserService extends IService<SysUser> {
      * @param username 用户名
      * @return 用户实体
      */
+    void resetPassword(String username, String newPassword);
     SysUser getUserByUsername(String username);
 }
