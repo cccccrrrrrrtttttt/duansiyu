@@ -1,4 +1,4 @@
-﻿server:
+server:
   port: 8081
 
 spring:
@@ -6,6 +6,10 @@ spring:
     allow-circular-references: true
   application:
     name: shusixue-backend
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema/init.sql
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://${MYSQL_HOST:mysql.railway.internal}:${MYSQL_PORT:3306}/${MYSQL_DATABASE:railway}?useUnicode=true&characterEncoding=utf-8&serverTimezone=UTC&useSSL=false&allowPublicKeyRetrieval=true

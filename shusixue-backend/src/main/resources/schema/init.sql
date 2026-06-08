@@ -162,21 +162,13 @@ CREATE TABLE IF NOT EXISTS sys_operation_log (
 -- ------------------------------
 INSERT INTO sys_user (username, password, real_name, role, status) VALUES
 ('admin', '\\\.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iAt6Z5EH', '系统管理员', 'ADMIN', 1),
-('teacher1', '\\\.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iAt6Z5EH', '张老师', 'TEACHER', 1),
-('student1', '\\\.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iAt6Z5EH', '李同学', 'STUDENT', 1)
+('teacher',  '\\\.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iAt6Z5EH', '张老师', 'TEACHER', 1),
+('student',  '\\\.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iAt6Z5EH', '李同学', 'STUDENT', 1)
 ON DUPLICATE KEY UPDATE username=username;
 
 
 -- ------------------------------
--- 插入更多用户数据（老师和学生）
--- ------------------------------
-INSERT INTO sys_user (username, password, real_name, role, status) VALUES
-('teacher2', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', '王老师', 'TEACHER', 1),
-('teacher3', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', '李老师', 'TEACHER', 1),
-('student2', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', '赵同学', 'STUDENT', 1),
-('student3', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', '孙同学', 'STUDENT', 1),
-('student4', '$2a$10$N9qo8uLOickgx2ZMRZoMyeIjZAgcfl7p92ldGxad68LJZdL17lhWy', '周同学', 'STUDENT', 1)
-ON DUPLICATE KEY UPDATE username=username;
+
 
 -- ------------------------------
 -- 插入知识点数据
@@ -202,8 +194,8 @@ INSERT INTO question (title, type, options, answer, analysis, difficulty, subjec
 ('函数f(x)=x²的导数是？', 'SINGLE_CHOICE', '["2x","x²","2","x"]', 'A', '根据幂函数求导公式，(xⁿ)'' = nxⁿ⁻¹', 'EASY', '高等数学', '[2]', 2),
 ('以下哪些是奇函数？', 'MULTIPLE_CHOICE', '["sinx","cosx","x³","x²"]', '["A","C"]', 'sinx和x³满足f(-x)=-f(x)，是奇函数；cosx和x²是偶函数', 'MEDIUM', '高等数学', '[1]', 2),
 ('∫x²dx = ____', 'FILL_BLANK', '[]', '(1/3)x³+C', '根据幂函数积分公式，∫xⁿdx = xⁿ⁺¹/(n+1) + C', 'EASY', '高等数学', '[3]', 2),
-('矩阵A=[1,2;3,4]的行列式值为？', 'SINGLE_CHOICE', '["-2","2","-4","4"]', 'A', 'det(A) = 1×4 - 2×3 = 4-6 = -2', 'MEDIUM', '线性代数', '[4]', 3),
-('设随机变量X~N(0,1)，P(X<0)=？', 'SINGLE_CHOICE', '["0.25","0.5","0.75","1"]', 'B', '标准正态分布关于x=0对称，故P(X<0)=0.5', 'MEDIUM', '概率论', '[7]', 3),
+('矩阵A=[1,2;3,4]的行列式值为？', 'SINGLE_CHOICE', '["-2","2","-4","4"]', 'A', 'det(A) = 1×4 - 2×3 = 4-6 = -2', 'MEDIUM', '线性代数', '[4]', 2),
+('设随机变量X~N(0,1)，P(X<0)=？', 'SINGLE_CHOICE', '["0.25","0.5","0.75","1"]', 'B', '标准正态分布关于x=0对称，故P(X<0)=0.5', 'MEDIUM', '概率论', '[7]', 2),
 ('求极限lim(x→∞) 1/x = 0，请说明理由', 'ESSAY', '[]', '当x趋于无穷大时，1/x趋于0', '本题考查极限的定义理解', 'EASY', '高等数学', '[1]', 2),
 ('已知y=ln(sinx)，求y''', 'ESSAY', '[]', 'y'' = cosx/sinx = cotx', '利用复合函数求导法则', 'HARD', '高等数学', '[2,9]', 2)
 ON DUPLICATE KEY UPDATE title=title;
@@ -214,8 +206,8 @@ ON DUPLICATE KEY UPDATE title=title;
 INSERT INTO homework (title, description, question_ids, creator_id, start_time, end_time, status) VALUES
 ('高等数学第一次作业', '极限与连续基础练习题', '[1,3,7]', 2, '2026-03-01 00:00:00', '2026-03-15 23:59:59', 'PUBLISHED'),
 ('导数与微分练习', '导数计算专项训练', '[2,8]', 2, '2026-03-10 00:00:00', '2026-03-25 23:59:59', 'PUBLISHED'),
-('线性代数基础作业', '矩阵与行列式练习', '[5]', 3, '2026-03-15 00:00:00', '2026-04-01 23:59:59', 'PUBLISHED'),
-('概率论入门作业', '概率论基础概念练习', '[6]', 3, '2026-04-01 00:00:00', '2026-04-15 23:59:59', 'DRAFT')
+('线性代数基础作业', '矩阵与行列式练习', '[5]', 2, '2026-03-15 00:00:00', '2026-04-01 23:59:59', 'PUBLISHED'),
+('概率论入门作业', '概率论基础概念练习', '[6]', 2, '2026-04-01 00:00:00', '2026-04-15 23:59:59', 'DRAFT')
 ON DUPLICATE KEY UPDATE title=title;
 
 -- ------------------------------
@@ -224,5 +216,5 @@ ON DUPLICATE KEY UPDATE title=title;
 INSERT INTO teaching_evaluation (title, teaching_date, class_name, content, effectiveness, participation, highlights, weaknesses, improvement_plan, creator_id) VALUES
 ('极限概念教学', '2026-03-02 08:00:00', '数学与应用数学2101班', '讲解了极限的定义和基本运算法则，通过多种实例帮助学生理解', 4, 4, '使用图形结合的方法讲解，学生理解效果较好', '部分学生对ε-δ语言掌握不够', '下一节课增加更多互动练习', 2),
 ('导数公式推导', '2026-03-09 08:00:00', '数学与应用数学2101班', '推导了常见函数的导数公式，讲解了复合函数求导法则', 5, 4, '课堂练习设计合理，学生参与度高', '时间安排略紧', '适当调整课时安排', 2),
-('矩阵运算教学', '2026-03-16 10:00:00', '信息与计算科学2101班', '讲解了矩阵的加法、乘法及转置运算', 4, 5, '实例丰富，学生兴趣浓厚', '乘法运算法则部分学生对顺序易混淆', '设计更多针对性练习', 3)
+('矩阵运算教学', '2026-03-16 10:00:00', '信息与计算科学2101班', '讲解了矩阵的加法、乘法及转置运算', 4, 5, '实例丰富，学生兴趣浓厚', '乘法运算法则部分学生对顺序易混淆', '设计更多针对性练习', 2)
 ON DUPLICATE KEY UPDATE title=title;
