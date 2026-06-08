@@ -324,10 +324,13 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { Plus } from '@element-plus/icons-vue'
 import request from '@/utils/request'
+
+const route = useRoute()
 
 // ============ 作业列表 ============
 const tableData = ref([])
@@ -660,8 +663,14 @@ const viewSubmissionDetail = async (row) => {
   }
 }
 
-onMounted(() => {
-  getHomeworkPage()
+// 立即加载数据 + 路由变化时重新加载
+getHomeworkPage()
+
+// 监听路由变化，确保返回此页面时重新加载
+watch(() => route.path, (newPath) => {
+  if (newPath === '/homework-teacher') {
+    getHomeworkPage()
+  }
 })
 </script>
 

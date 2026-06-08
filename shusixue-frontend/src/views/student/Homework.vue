@@ -153,9 +153,12 @@
 </template>
 
 <script setup>
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, watch } from 'vue'
+import { useRoute } from 'vue-router'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import request from '@/utils/request'
+
+const route = useRoute()
 
 const tableData = ref([])
 const total = ref(0)
@@ -199,7 +202,6 @@ const resetQuery = () => {
   queryForm.keyword = ''
   queryForm.status = ''
   queryForm.pageNum = 1
-  getHomeworkPage()
 }
 
 const getTypeText = (type) => {
@@ -306,7 +308,6 @@ const handleSubmitHomework = async () => {
         duration: 1000
       })
       doHomeworkVisible.value = false
-      getHomeworkPage()
     } catch (error) {
       console.error('提交作业失败:', error)
       console.error('错误详情:', error.message, error.response)
@@ -359,8 +360,12 @@ const handleViewResult = async (row) => {
   }
 }
 
-onMounted(() => {
-  getHomeworkPage()
+// 立即加载数据 + 路由变化时重新加载
+getHomeworkPage()
+watch(() => route.path, (newPath) => {
+  if (newPath === '/homework-student') {
+    getHomeworkPage()
+  }
 })
 </script>
 
